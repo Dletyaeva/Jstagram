@@ -54,5 +54,11 @@ public class TextPost extends Post implements PostContentFormatter {
 		String stringing = "|                                        |" + "\n";	
 		return stringing;
 	}
+	// displaydata() 
+	public static void displayData(){
+		String s = "select postText from PostDetails where visibilityID = "; // prepared select statement
+		
+		System.out.println();
+	};
 
 }
