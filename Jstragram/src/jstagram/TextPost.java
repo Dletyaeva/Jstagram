@@ -56,7 +56,8 @@ public class TextPost extends Post implements PostContentFormatter {
 	}
 	// displaydata() 
 	public static void displayData(){
-		String s = "select postText from PostDetails where visibilityID = "; // prepared select statement
+
+		String s = "select postText from PostDetails where visibilityID = '" + "'" +  vizId + "'" + ";"; // prepared select statement
 		
 		System.out.println();
 	};
