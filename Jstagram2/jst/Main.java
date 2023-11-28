@@ -1,4 +1,4 @@
-package jstagram;
+package jst;
 import java.sql.*;
 import java.util.*;
 
@@ -19,7 +19,13 @@ public class Main {
 	public final static String password = "Xei1eipheeC1"; // your database password
 	public final static String url = "jdbc:mysql://"+hostname+"/"+username;
 	
-	public loadData() {
+	public static void main (String[] args) {
+		loadData();
+
+	}
+	
+	
+	public static void  loadData() {
 		// 1. create a database connection
 	    Connection conn = null;
 	    try {
@@ -30,7 +36,7 @@ public class Main {
 		}
 	    
 	    // 2. prepare and execute statement
-	    String s = "select * from Student;";
+	    String s = "select postText, userName, postTime from PostDetails natural inner join UserDetails";
 	    PreparedStatement prep = null;
 	    ResultSet rs = null;
 	    try {
@@ -40,13 +46,11 @@ public class Main {
 			
 		    System.out.println("Beginning of query result");
 			while(rs.next()) {
-				int studentID = rs.getInt("studentID");
-				String studentName = rs.getString("studentName");
-				int studentYear = rs.getInt("studentYear");
-				String studentMajor = rs.getString("studentMajor");
+				String userName = rs.getString("userName");
+				String postTime = rs.getString("postTime");
 				
 				// Student s = new Student(studentID, studentName, studentYear, studentMajor);
-				System.out.println(studentID+"\t"+studentName+"\t"+studentYear+"\t"+studentMajor);
+				System.out.println(userName+"\t"+postTime);
 			}
 		    System.out.println("End of query result");
 	    } catch (SQLException e) {
@@ -65,6 +69,6 @@ public class Main {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
 	
+}
 }
