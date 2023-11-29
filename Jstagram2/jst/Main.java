@@ -2,8 +2,6 @@ package jst;
 import java.sql.*;
 import java.util.*;
 
-import unl.soc.Account;
-
 
 //create connection with sql
 
@@ -20,22 +18,104 @@ public class Main {
 	public final static String username = "dletyaeva2"; // your database username
 	public final static String password = "Xei1eipheeC1"; // your database password
 	public final static String url = "jdbc:mysql://"+hostname+"/"+username;
-	
+	public static ArrayList<String> userViz = new ArrayList<String>();
+	public static ArrayList<String> userNoViz = new ArrayList<String>();
 	public static String CurrentUser = "Alice";
 	
 	private final static Scanner input = new Scanner(System.in);
 	
 	public static void main (String[] args) {
+		//Views.mainWindow();
+		//Views.loginWindow();
+		//Views.accountWindow();
+		generateVizSee();
+		generateVizNoSee();
 		//login();
-		
-		String userName = "Alice";
-		String password = "Alice123";
-		boolean account = checkAccount(userName, password);
-		System.out.println("account is found:" + account);
 		//viewPost();
+		Views.vizWindow();
+	}
+	public static void generateVizNoSee() {
+		// 1. create a database connection
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+	    // 2. prepare and execute statement
+	    String s = "select userName from VIZ natural inner join UserDetails \r\n"
+	    		+ "	where ("+ CurrentUser +"= 'N') and userName in (select userName from UserDetails);";
+	    PreparedStatement prep = null;
+	    ResultSet rs = null;
+	    try {
+			prep = conn.prepareStatement(s);
+			
+			rs = prep.executeQuery();
+			
+			while(rs.next()) {
+				String userName = rs.getString("userName");
+				userNoViz.add(userName);
+			}
+	    } catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		// 3. close all resources
+	    // do not combine with step 2
+	    // otherwise, resources are not closed when something wrong at step 2
+	    try {
+			if (rs != null) 
+				rs.close();
+			if (prep != null)
+				prep.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
-
+	
+	public static void generateVizSee() {
+		// 1. create a database connection
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+	    // 2. prepare and execute statement
+	    String s = "select userName from VIZ natural inner join UserDetails \r\n"
+	    		+ "	where ("+ CurrentUser +"= 'Y') and userName in (select userName from UserDetails);";
+	    PreparedStatement prep = null;
+	    ResultSet rs = null;
+	    try {
+			prep = conn.prepareStatement(s);
+			
+			rs = prep.executeQuery();
+			while(rs.next()) {
+				String userName = rs.getString("userName");
+				userViz.add(userName);
+			}
+	    } catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		// 3. close all resources
+	    // do not combine with step 2
+	    // otherwise, resources are not closed when something wrong at step 2
+	    try {
+			if (rs != null) 
+				rs.close();
+			if (prep != null)
+				prep.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public static void  viewPost() {
 		// 1. create a database connection
@@ -85,7 +165,7 @@ public class Main {
 
 	
 	
-	public static boolean checkAccount (String userName, String password){
+	public static boolean checkAccount (String userName, String userPassword){
 		String dataUserName = null;
 		String dataPassword = null;
 		
@@ -109,11 +189,13 @@ public class Main {
 			
 			while(rs.next()) {
 				dataUserName = rs.getString("userName");
-				dataPassword = rs.getString("password");	
+				dataPassword = rs.getString("password");
+				/*
 				System.out.println("username User input:" + userName);
-				System.out.println("Password user input:" + password);
+				System.out.println("Password user input:" + userPassword);
 				System.out.println("User in Database:" + dataUserName);
 				System.out.println("Password in Database:" + dataPassword);
+				*/
 			}
 	
 		
@@ -132,73 +214,88 @@ public class Main {
 			e.printStackTrace();
 		}
 	    
-	   if(dataUserName.equals(userName) && dataPassword.equals(password)) {
+	   if(dataUserName.equals(userName) && dataPassword.equals(userPassword)) {
 		   return true;
 	   } else {
 		  return false;
 	   }
 		
 	}
-	public  void login() {
-		//Make loop till matches or user quits
+	
+	public static void login() {
+		//do loop till matches or user quits
 		System.out.print("Please enter your username: ");
 		String userName = input.next();
 		
 		System.out.print("Please enter your password: ");
-		String password = input.next();
+		String userPassword = input.next();
 		
-		boolean check = checkAccount(userName, password);
-		
-		/*
-		if(accounts.containsKey(userName)) {
-			Account stored = accounts.get(userName);
-			String passStored = stored.getPassword();
-			
-			boolean check = passStored.equals(password);
-			
-				if(check == true) {
-				 this.currentAccount = accounts.get(userName);
-				 activity();
-					
-				} else {
-					while (check == false) {
-						String userChoice = null;
-						System.out.println("Wrong Password");
-						System.out.println("Try again press [T]; to return to main [M]; to Quite press [Q]");
-						userChoice = input.next();
+		boolean check = checkAccount(userName, userPassword);
+			if(check == true) {
+				CurrentUser = userName;	
+				System.out.println("U MADE IT!!!");
+				//go to user Setting page
+			} else {
+				while (check == false) {
+					String userChoice = null;
+					System.out.println("Wrong password and/or username");
+					System.out.println("Try again press [T]; to return to main [M]; to Quite press [Q]");
+					userChoice = input.next();
 						
-						while((userChoice.equals("T") || userChoice.equals("M") ||  userChoice.equals("Q")) == false){
-							System.out.println("Enter a valid character please");
-							userChoice= input.next();
-						}
-						
-						if (userChoice.equals("T")) {
-							System.out.print("Please enter your password: ");
-							password = input.next();
-							check = passStored.equals(password);
-						}
-						if(userChoice.equals("M")) {	
-						}
-						
-						if(userChoice.equals("Q")) {
-							quit();
-						}
-		
+					while((userChoice.equals("T") || userChoice.equals("M") ||  userChoice.equals("Q")) == false){
+						System.out.println("Enter a valid character please");
+						userChoice= input.next();
 					}
-				}
-	
-			
-		} else {
-			System.out.println("User not found, returning to main page");
-		}
-		*/
+						
+					if (userChoice.equals("T")) {
+						System.out.print("Please enter your username: ");
+						userName = input.next();
+						System.out.print("Please enter your password: ");
+						userPassword = input.next();
+						check = checkAccount(userName, userPassword);
+					}
+					
+					if(userChoice.equals("M")) {	
+					}
+						
+					if(userChoice.equals("Q")) {
+						quit();
+					}
+				}//end of while loop
+			 System.out.println("U MAdE IT TO SETTINGS!!");
+			} // end of else
 	}
 	
-	public void quit() {
+	public static void quit() {
 		input.close();
 		System.out.println("Good Bye!");
 		System.exit(0);
 		//Erases User Data
 	}
+	
+	//sub functions for easy of read
+
+	
+	
+	//stuff to deal with later
+	/*
+	 * 	public void printSetTextInput() {
+		for(int i=0; i < Input40.size(); i++) {
+			String string = Input40.get(i).toString();
+			System.out.printf("|%-40s|\n", string);
+		}
+	}
+
+	@Override
+	public String getFormattedContent() {
+		if(userInput.length() >= 40) {
+			
+		} else {
+		System.out.printf("|%-40s|\n", userInput);
+		}
+		String stringing = "|                                        |" + "\n";	
+		return stringing;
+	}
+	 */
 	
 }
