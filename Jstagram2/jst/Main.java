@@ -27,11 +27,15 @@ public class Main {
 	
 	public static void main (String[] args) {
 		//login();
-		boolean account = checkAccount("Alice", "Alice123");
-		//viewPost();
+		
+		String userName = "Alice";
+		String password = "Alice123";
+		boolean account = checkAccount(userName, password);
 		System.out.println("account is found:" + account);
+		//viewPost();
+		
 	}
-	
+
 	
 	public static void  viewPost() {
 		// 1. create a database connection
@@ -81,10 +85,10 @@ public class Main {
 
 	
 	
-	public static boolean checkAccount (String userName, String Password){
+	public static boolean checkAccount (String userName, String password){
 		String dataUserName = null;
 		String dataPassword = null;
-		boolean check = false;
+		
 		
 		// 1. create a database connection
 	    Connection conn = null;
@@ -105,21 +109,11 @@ public class Main {
 			
 			while(rs.next()) {
 				dataUserName = rs.getString("userName");
-				dataPassword = rs.getString("password");
-				
-				if (dataUserName == userName) {
-					if (dataPassword == Password) {
-						check = true;
-					}
-				} else {
-					check = false;
-				}
-				
+				dataPassword = rs.getString("password");	
 				System.out.println("username User input:" + userName);
-				System.out.println("Password user input:" + Password);
+				System.out.println("Password user input:" + password);
 				System.out.println("User in Database:" + dataUserName);
 				System.out.println("Password in Database:" + dataPassword);
-				System.out.println(check);
 			}
 	
 		
@@ -138,11 +132,11 @@ public class Main {
 			e.printStackTrace();
 		}
 	    
-		if ((dataUserName == userName) && (dataPassword == Password)) {
-			return true;
-		} else {
-			return false;
-		}
+	   if(dataUserName.equals(userName) && dataPassword.equals(password)) {
+		   return true;
+	   } else {
+		  return false;
+	   }
 		
 	}
 	public  void login() {
@@ -153,9 +147,9 @@ public class Main {
 		System.out.print("Please enter your password: ");
 		String password = input.next();
 		
-		boolean check = checkAccount(userName);
+		boolean check = checkAccount(userName, password);
 		
-		
+		/*
 		if(accounts.containsKey(userName)) {
 			Account stored = accounts.get(userName);
 			String passStored = stored.getPassword();
@@ -197,6 +191,7 @@ public class Main {
 		} else {
 			System.out.println("User not found, returning to main page");
 		}
+		*/
 	}
 	
 	public void quit() {
