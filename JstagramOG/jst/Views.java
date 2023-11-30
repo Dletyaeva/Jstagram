@@ -1,5 +1,4 @@
 package jst;
-import java.util.ArrayList;
 
 
 public class Views {
@@ -83,8 +82,8 @@ public class Views {
     }
     //deal with later
     public static void vizWindow() {
-		Main.generateVizSee();
-		Main.generateVizNoSee();
+    	Viz.generateVizSee();
+		Viz.generateVizNoSee();
         System.out.println(ANSI_Cyan +  "+========================================+" + ANSI_RESET);
         System.out.println(ANSI_Yellow + "|-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+|");
         System.out.println("|-+-+-+-+-|V|i|s|i|b|i|l|i|t|y|-+-+-+-+-+|");
@@ -93,8 +92,8 @@ public class Views {
         System.out.println(ANSI_Cyan + "|                                        |");
         
         System.out.printf("|%36s %5s","----- Who Can See My Posts -----","|\n");
-        for(int i =0; i < Main.userViz.size(); i++) {
-			String s = Main.userViz.get(i);
+        for(int i =0; i < Viz.userViz.size(); i++) {
+			String s = Viz.userViz.get(i);
 			System.out.printf(ANSI_Cyan + "|");
 			System.out.printf(ANSI_Green + "%5s %-15s","-|",s);
 			System.out.printf(ANSI_Cyan + "%21s","|\n");
@@ -102,8 +101,8 @@ public class Views {
         System.out.println(ANSI_Cyan + "|                                        |");
         System.out.println("|                                        |");
         System.out.printf("|%38s %3s","----- Who Can NOT See My Posts -----","|\n");
-        for(int i =0; i < Main.userNoViz.size(); i++) {
-			String s = Main.userNoViz.get(i);
+        for(int i =0; i < Viz.userNoViz.size(); i++) {
+			String s = Viz.userNoViz.get(i);
 			System.out.printf(ANSI_Cyan + "|");
 			System.out.printf(ANSI_Green + "%5s %-15s","+|",s);
 			System.out.printf(ANSI_Cyan + "%21s","|\n");
@@ -122,7 +121,7 @@ public class Views {
         System.out.println(ANSI_Cyan + "|" + ANSI_Yellow + "-+-+-+-+-+-+-+|P|o|s|t|s|+-+-+-+-+-+-+-+" + ANSI_Cyan + "|");
         System.out.println(ANSI_Cyan + "|" + ANSI_Yellow + "-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+" + ANSI_Cyan + "|" );
         System.out.println("|                                        |");
-        Main.viewPost();
+        Post.viewPost();
         System.out.println(ANSI_Cyan + "|                                        |");
         System.out.printf("|%5s %-10s %23s","|", "New Post [+]","|\n");
         System.out.printf("|%5s %-10s %25s","|", "Back[B] ","|\n");
