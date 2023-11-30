@@ -25,6 +25,7 @@ public class Main {
 	public static List<String> Input40 = new ArrayList<>();
 	public static String CurrentUser = "Alice";
 	public static Integer userID = 1;
+	public static Integer postId = 6;
 	
 	private final static Scanner input = new Scanner(System.in);
 	
@@ -36,6 +37,7 @@ public class Main {
 		//Views.vizWindow();
 		//login();
 		//addTextPost();
+		deletePost();
 		Views.postWindow();
 		
 	}
@@ -366,6 +368,7 @@ public class Main {
 	
 	}
 	public static void deletePost(){
+		
 		// Create a database connection
 	    Connection conn = null;
 	    try {
@@ -379,20 +382,12 @@ public class Main {
 
 	    // Prepare statement
 	    String s = """
-	    			DELETE from PostDetails WHERE postID = 6 ;
+	    			DELETE from PostDetails WHERE postID = 7;
 	    			""";
-		String s2 = """
-		DELETE from PostDetails WHERE postID = 7 ;
-		""";
-	    String s3 = """
-		DELETE from PostDetails WHERE postID = 8 ;
-		""";
 	    PreparedStatement prep = null;
 	    ResultSet rs = null;
 	    try {
 			prep = conn.prepareStatement(s);
-			prep = conn.prepareStatement(s2);
-			prep = conn.prepareStatement(s3);
 
 			prep.executeUpdate();
 		} catch (SQLException e) {
