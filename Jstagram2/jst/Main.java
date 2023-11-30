@@ -416,7 +416,7 @@ public class Main {
 		}
 	    
 		// Get user input
-		System.out.print("Enter username: ");
+		System.out.print("Enter username to add: ");
 		String addUser = input.nextLine();
 
 	    // Prepare statement
@@ -453,7 +453,7 @@ public class Main {
 		}
 	    
 		// Get user input
-		System.out.print("Enter username: ");
+		System.out.print("Enter username to remove: ");
 		String addUser = input.nextLine();
 
 	    // Prepare statement
