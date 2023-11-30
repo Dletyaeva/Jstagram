@@ -81,6 +81,8 @@ public class Views {
     }
     //deal with later
     public static void vizWindow() {
+		Main.generateVizSee();
+		Main.generateVizNoSee();
         System.out.println(ANSI_Cyan +  "+========================================+" + ANSI_RESET);
         System.out.println(ANSI_Yellow + "|-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+|");
         System.out.println("|-+-+-+-+-|V|i|s|i|b|i|l|i|t|y|-+-+-+-+-+|");
@@ -114,10 +116,10 @@ public class Views {
     }
     public static void postWindow() {
         System.out.println(ANSI_Cyan +  "+========================================+" + ANSI_RESET);
-        System.out.println(ANSI_Yellow + "|-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+|");
-        System.out.println(              "|-+-+-+-+-+-+-+|P|o|s|t|s|+-+-+-+-+-+-+-+|");
-        System.out.println("|-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+|" + ANSI_RESET);
-        System.out.println(ANSI_Cyan + "|                                        |");
+        System.out.println(ANSI_Cyan + "|" + ANSI_Yellow + "-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+" + ANSI_Cyan + "|");
+        System.out.println(ANSI_Cyan + "|" + ANSI_Yellow + "-+-+-+-+-+-+-+|P|o|s|t|s|+-+-+-+-+-+-+-+" + ANSI_Cyan + "|");
+        System.out.println(ANSI_Cyan + "|" + ANSI_Yellow + "-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+" + ANSI_Cyan + "|" );
+        System.out.println("|                                        |");
         Main.viewPost();
         System.out.println(ANSI_Cyan + "|                                        |");
         System.out.printf("|%5s %-10s %23s","|", "New Post [+]","|\n");

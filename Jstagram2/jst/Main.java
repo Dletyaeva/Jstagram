@@ -27,13 +27,11 @@ public class Main {
 	public static void main (String[] args) {
 		//Views.mainWindow();
 		//Views.loginWindow();
-		//Views.accountWindow();
+		Views.accountWindow();
 		Views.postWindow();
-		generateVizSee();
-		generateVizNoSee();
+		Views.vizWindow();
 		//login();
-		//viewPost();
-		//Views.vizWindow();
+		
 	}
 	
 	//behind the scenes stuff
