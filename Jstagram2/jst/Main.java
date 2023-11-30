@@ -365,6 +365,53 @@ public class Main {
 		}
 	
 	}
+	public static void deletePost(){
+		// Create a database connection
+	    Connection conn = null;
+	    try {
+			conn = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+	    
+		// Get user input
+
+	    // Prepare statement
+	    String s = """
+	    			DELETE from PostDetails WHERE postID = 6 ;
+	    			""";
+		String s2 = """
+		DELETE from PostDetails WHERE postID = 7 ;
+		""";
+	    String s3 = """
+		DELETE from PostDetails WHERE postID = 8 ;
+		""";
+	    PreparedStatement prep = null;
+	    ResultSet rs = null;
+	    try {
+			prep = conn.prepareStatement(s);
+			prep = conn.prepareStatement(s2);
+			prep = conn.prepareStatement(s3);
+
+			prep.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		// 3. close all resources
+	    // do not combine with step 2
+	    // otherwise, resources are not closed when something wrong at step 2
+	    try {
+			if (rs != null) 
+				rs.close();
+			if (prep != null)
+				prep.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 	public static void getUserID(){
