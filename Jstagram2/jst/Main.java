@@ -1,6 +1,8 @@
 package jst;
 import java.sql.*;
 import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 //create connection with sql
@@ -22,6 +24,7 @@ public class Main {
 	public static ArrayList<String> userNoViz = new ArrayList<String>();
 	public static List<String> Input40 = new ArrayList<>();
 	public static String CurrentUser = "Alice";
+	public static Integer userID = 1;
 	
 	private final static Scanner input = new Scanner(System.in);
 	
@@ -305,6 +308,60 @@ public class Main {
 			String string = Input40.get(i).toString();
 			System.out.printf("|%-40s|\n", string);
 		}
+	}
+
+	public static void addTextPost() {
+		
+		// Create a database connection
+	    Connection conn = null;
+	    try {
+			conn = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+	    
+		// Get user input
+		System.out.print("Enter text: ");
+		String userText = input.next();
+
+		LocalDateTime postTime = LocalDateTime.now();
+		String date = postTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+
+	    // Prepare statement
+	    String s = """
+	    			insert into PostDetails (postText, postTime, userID)
+	    		             	values  (?,         ?,           ?);
+	    			""";
+	    
+	    PreparedStatement prep = null;
+	    ResultSet rs = null;
+	    try {
+			prep = conn.prepareStatement(s);
+			
+			prep.setString(2, userText); 
+			prep.setString(3, date); 
+			prep.setInt(4, userID); 
+			// index starts at 1 not 0
+			
+			prep.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		// 3. close all resources
+	    // do not combine with step 2
+	    // otherwise, resources are not closed when something wrong at step 2
+	    try {
+			if (rs != null) 
+				rs.close();
+			if (prep != null)
+				prep.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
 	}
 	
 	//stuff to deal with later
