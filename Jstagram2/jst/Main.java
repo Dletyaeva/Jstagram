@@ -28,12 +28,15 @@ public class Main {
 		//Views.mainWindow();
 		//Views.loginWindow();
 		//Views.accountWindow();
+		Views.postWindow();
 		generateVizSee();
 		generateVizNoSee();
 		//login();
 		//viewPost();
-		Views.vizWindow();
+		//Views.vizWindow();
 	}
+	
+	//behind the scenes stuff
 	public static void generateVizNoSee() {
 		// 1. create a database connection
 		Connection conn = null;
@@ -141,8 +144,12 @@ public class Main {
 				String userName = rs.getString("userName");
 				String postTime = rs.getString("postTime");
 				String postText = rs.getString("postText");
-				
-				System.out.println(userName+"\t"+postText+"\t"+postTime);
+				System.out.printf(Views.ANSI_Cyan + "|");				
+				System.out.printf(Views.ANSI_Red + "   %-37s",postText);
+				System.out.printf(Views.ANSI_Cyan +"|\n");
+				System.out.printf(Views.ANSI_Cyan + "|");
+				System.out.printf(Views.ANSI_Yellow + "%37s   ", userName + ", " + postTime);
+				System.out.printf(Views.ANSI_Cyan +"|\n");
 			}
 	    } catch (SQLException e) {
 			e.printStackTrace();
@@ -163,8 +170,6 @@ public class Main {
 	
 }
 
-	
-	
 	public static boolean checkAccount (String userName, String userPassword){
 		String dataUserName = null;
 		String dataPassword = null;
@@ -272,9 +277,6 @@ public class Main {
 		System.exit(0);
 		//Erases User Data
 	}
-	
-	//sub functions for easy of read
-
 	
 	
 	//stuff to deal with later
