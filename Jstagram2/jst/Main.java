@@ -20,6 +20,7 @@ public class Main {
 	public final static String url = "jdbc:mysql://"+hostname+"/"+username;
 	public static ArrayList<String> userViz = new ArrayList<String>();
 	public static ArrayList<String> userNoViz = new ArrayList<String>();
+	public static List<String> Input40 = new ArrayList<>();
 	public static String CurrentUser = "Alice";
 	
 	private final static Scanner input = new Scanner(System.in);
@@ -142,13 +143,19 @@ public class Main {
 				String userName = rs.getString("userName");
 				String postTime = rs.getString("postTime");
 				String postText = rs.getString("postText");
-				System.out.printf(Views.ANSI_Cyan + "|");				
-				System.out.printf(Views.ANSI_Red + "   %-37s",postText);
-				System.out.printf(Views.ANSI_Cyan +"|\n");
+				if (postText.length() >= 40) {
+					setTextInput(postText);
+					printSetTextInput();
+				} else {
+					System.out.printf(Views.ANSI_Cyan + "|");				
+					System.out.printf(Views.ANSI_Red + "   %-37s",postText);
+					System.out.printf(Views.ANSI_Cyan +"|\n");
+				}
 				System.out.printf(Views.ANSI_Cyan + "|");
 				System.out.printf(Views.ANSI_Yellow + "%37s   ", userName + ", " + postTime);
 				System.out.printf(Views.ANSI_Cyan +"|\n");
 			}
+				
 	    } catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -276,6 +283,29 @@ public class Main {
 		//Erases User Data
 	}
 	
+	
+	public static void setTextInput(String input) {
+	/*really long string over 40 characters 
+	 * split it into an array, each string at some index to be exactly 40 characters
+	 */	
+		Integer mult = input.length() / 40;
+		Integer length = 40 * mult;
+		
+		for(int i=0; i < mult; i++) {
+			String newString = input.substring(i*40, length-((mult-(i+1))*40));
+			Input40.add(newString);
+		}
+		
+		//adds any remaining characters into Input40
+		Input40.add(input.substring(length, input.length()));		
+	}
+	
+	public static void printSetTextInput() {
+		for(int i=0; i < Input40.size(); i++) {
+			String string = Input40.get(i).toString();
+			System.out.printf("|%-40s|\n", string);
+		}
+	}
 	
 	//stuff to deal with later
 	/*
