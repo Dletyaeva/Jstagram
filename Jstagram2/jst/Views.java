@@ -17,7 +17,9 @@ public class Views {
 
     public static final String ANSI_Cyan = "\u001B[36m";
     
-
+    
+    
+    
     public static void mainWindow() {
         System.out.println(ANSI_Green + "+========================================+");
         System.out.println("|         Welcome to Jstgram!            |");

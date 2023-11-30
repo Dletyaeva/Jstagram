@@ -31,10 +31,12 @@ public class Main {
 	public static void main (String[] args) {
 		//Views.mainWindow();
 		//Views.loginWindow();
-		Views.accountWindow();
-		Views.postWindow();
-		Views.vizWindow();
+		//Views.accountWindow();
+		//Views.postWindow();
+		//Views.vizWindow();
 		//login();
+		//addTextPost();
+		Views.postWindow();
 		
 	}
 	
@@ -146,6 +148,7 @@ public class Main {
 				String userName = rs.getString("userName");
 				String postTime = rs.getString("postTime");
 				String postText = rs.getString("postText");
+				
 				if (postText.length() >= 40) {
 					setTextInput(postText);
 					printSetTextInput();
@@ -285,8 +288,7 @@ public class Main {
 		System.exit(0);
 		//Erases User Data
 	}
-	
-	
+
 	public static void setTextInput(String input) {
 	/*really long string over 40 characters 
 	 * split it into an array, each string at some index to be exactly 40 characters
@@ -323,10 +325,10 @@ public class Main {
 	    
 		// Get user input
 		System.out.print("Enter text: ");
-		String userText = input.next();
+		String userText = input.nextLine();
 
 		LocalDateTime postTime = LocalDateTime.now();
-		String date = postTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+		String date = postTime.format(DateTimeFormatter.ofPattern("hh:mm:ssa MMM dd, YYYY"));
 
 	    // Prepare statement
 	    String s = """
@@ -339,9 +341,9 @@ public class Main {
 	    try {
 			prep = conn.prepareStatement(s);
 			
-			prep.setString(2, userText); 
-			prep.setString(3, date); 
-			prep.setInt(4, userID); 
+			prep.setString(1, userText); 
+			prep.setString(2, date); 
+			prep.setInt(3, userID); 
 			// index starts at 1 not 0
 			
 			prep.executeUpdate();
@@ -364,25 +366,45 @@ public class Main {
 	
 	}
 	
-	//stuff to deal with later
-	/*
-	 * 	public void printSetTextInput() {
-		for(int i=0; i < Input40.size(); i++) {
-			String string = Input40.get(i).toString();
-			System.out.printf("|%-40s|\n", string);
+	
+	public static void getUserID(){
+		// 1. create a database connection
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
 		}
-	}
-
-	@Override
-	public String getFormattedContent() {
-		if(userInput.length() >= 40) {
+	    
+	    // 2. prepare and execute statement
+	    String s = "select userID from UserDetails where userName = '"+ CurrentUser + "';";
+	    PreparedStatement prep = null;
+	    ResultSet rs = null;
+	    
+	    try {
+			prep = conn.prepareStatement(s);
+			rs = prep.executeQuery();
 			
-		} else {
-		System.out.printf("|%-40s|\n", userInput);
+			while(rs.next()) {
+				Integer currentUserID = rs.getInt("userID");
+			}
+	
+		
+	    } catch (SQLException e) {
+			e.printStackTrace();
 		}
-		String stringing = "|                                        |" + "\n";	
-		return stringing;
+		
+		// 3. close all resources
+	    try {
+			if (rs != null) 
+				rs.close();
+			if (prep != null)
+				prep.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	 */
 	
 }
