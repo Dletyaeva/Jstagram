@@ -5,16 +5,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 
-//create connection with sql
-
-//display the pre-init database values
-
-//main function 
-	//Main window -> init function: starts up and preloads all the data
-	// login function: 
-
-	//every time the user is in post window function displays everything in the database plus the updated stuff
-
 public class Main {
 	public final static String hostname = "cse-linux-01.unl.edu";
 	public final static String username = "dletyaeva2"; // your database username
