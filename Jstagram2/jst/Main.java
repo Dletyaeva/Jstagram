@@ -398,14 +398,85 @@ public class Main {
 	    // do not combine with step 2
 	    // otherwise, resources are not closed when something wrong at step 2
 	    try {
-			if (rs != null) 
-				rs.close();
 			if (prep != null)
 				prep.close();
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	public static void addToViz() {
+		// Create a database connection
+	    Connection conn = null;
+	    try {
+			conn = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+	    
+		// Get user input
+		System.out.print("Enter username: ");
+		String addUser = input.nextLine();
+
+	    // Prepare statement
+	    String s = "update VIZ set " + CurrentUser + " = 'Y' where userID =(select userID from UserDetails where userName = "+ addUser + ");";
+	    
+	    PreparedStatement prep = null;
+	    
+	    try {
+			prep = conn.prepareStatement(s);
+
+			prep.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	    try {
+			if (prep != null)
+				prep.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	// deletes a user from current user's visibility list
+	public static void deleteFromViz() {
+		// Create a database connection
+	    Connection conn = null;
+	    try {
+			conn = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+	    
+		// Get user input
+		System.out.print("Enter username: ");
+		String addUser = input.nextLine();
+
+	    // Prepare statement
+	    String s = "update VIZ set " + CurrentUser + " = 'N' where userID =(select userID from UserDetails where userName = "+ addUser + ");";
+	    
+	    PreparedStatement prep = null;
+	    
+	    try {
+			prep = conn.prepareStatement(s);
+
+			prep.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	    try {
+			if (prep != null)
+				prep.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
