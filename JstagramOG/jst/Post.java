@@ -46,10 +46,14 @@ public class Post {
 			return;
 		}
 	    
-		// Get user input
-		System.out.print("Enter text: ");
-		String userText = Main.input.nextLine();
+		//consumes an extra newLine, otherwise won't user take input
+	    Main.input.nextLine();
+	    
+	    // Get user input
+	    System.out.print("Enter text: ");
+	    String userText = Main.input.nextLine();
 
+		
 		LocalDateTime postTime = LocalDateTime.now();
 		String date = postTime.format(DateTimeFormatter.ofPattern("hh:mm:ssa MMM dd, YYYY"));
 

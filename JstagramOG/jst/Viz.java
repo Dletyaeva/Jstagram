@@ -94,6 +94,8 @@ public class Viz {
 	
 
 	public static void addToViz() {
+		userViz.clear();
+		userNoViz.clear();
 		// Create a database connection
 	    Connection conn = null;
 	    try {
@@ -104,17 +106,16 @@ public class Viz {
 		}
 	    
 		// Get user input
-		System.out.print("Enter Database.username to add: ");
-		String addUser = Main.input.nextLine();
+		System.out.print("Enter username to add: ");
+		String addUser = Main.input.next();
 
 	    // Prepare statement
-	    String s = "update VIZ set " + Main.CurrentUser + " = 'Y' where userID =(select userID from UserDetails where userName = "+ addUser + ");";
+	    String s = "update VIZ set " + Main.CurrentUser + "= 'Y' where userID = (select userID from UserDetails where userName = "+ addUser + ");";
 	    
 	    PreparedStatement prep = null;
 	    
 	    try {
 			prep = conn.prepareStatement(s);
-
 			prep.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -126,11 +127,13 @@ public class Viz {
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		
+		}	
 	}
+	
 	// deletes a user from current user's visibility list
 	public static void deleteFromViz() {
+		userViz.clear();
+		userNoViz.clear();
 		// Create a database connection
 	    Connection conn = null;
 	    try {
@@ -141,17 +144,16 @@ public class Viz {
 		}
 	    
 		// Get user input
-		System.out.print("Enter Database.username to remove: ");
-		String addUser = Main.input.nextLine();
+		System.out.print("Enter Database username to remove: ");
+		String addUser = Main.input.next();
 
 	    // Prepare statement
-	    String s = "update VIZ set " + Main.CurrentUser + " = 'N' where userID =(select userID from UserDetails where userName = "+ addUser + ");";
+	    String s = "update VIZ set " + Main.CurrentUser + "= 'N' where userID =(select userID from UserDetails where userName = "+ addUser + ");";
 	    
 	    PreparedStatement prep = null;
 	    
 	    try {
 			prep = conn.prepareStatement(s);
-
 			prep.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

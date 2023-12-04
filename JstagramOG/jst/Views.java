@@ -82,8 +82,6 @@ public class Views {
     }
     //deal with later
     public static void vizWindow() {
-    	Viz.generateVizSee();
-		Viz.generateVizNoSee();
         System.out.println(ANSI_Cyan +  "+========================================+" + ANSI_RESET);
         System.out.println(ANSI_Yellow + "|-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+|");
         System.out.println("|-+-+-+-+-|V|i|s|i|b|i|l|i|t|y|-+-+-+-+-+|");

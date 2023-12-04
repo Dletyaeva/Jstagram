@@ -4,13 +4,21 @@ import java.util.*;
 
 
 public class Main {
-	public static String CurrentUser = null;
-	public static Integer userID = null;
+	public static String CurrentUser = "Alice";
+	public static Integer userID = 1;
+	public static Integer usersOn= null;
 	public static Integer postId = 5;
 	public final static Scanner input = new Scanner(System.in);
 	
 	public static void main (String[] args) {
-		mainInterface();				
+		//mainInterface();	
+		Viz.generateVizNoSee();
+		Viz.generateVizSee();
+		Views.vizWindow();
+		Viz.addToViz();
+		Viz.generateVizNoSee();
+		Viz.generateVizSee();
+		Views.vizWindow();
 	}
 	
 	/*interface at account window page displays options:
@@ -58,6 +66,7 @@ public class Main {
 		}
 		if(userChoice.equals("+")) {
 			Post.addTextPost();
+			postInterface();
 		}
 		if(userChoice.equals("B")) {
 			homeInterface();
@@ -70,6 +79,8 @@ public class Main {
 	 * go back to account window(B)
 	*/
 	public static void vizInterface() {
+    	Viz.generateVizSee();
+		Viz.generateVizNoSee();
 		Views.vizWindow();
 		String userChoice= input.next();
 		
@@ -80,9 +91,11 @@ public class Main {
 		}
 		if(userChoice.equals("+")) {
 			Viz.addToViz();
+			vizInterface();
 		}
 		if(userChoice.equals("-")) {
-			Viz.deleteFromViz();	
+			Viz.deleteFromViz();
+			vizInterface();
 		}
 		if(userChoice.equals("B")) {
 			homeInterface();
@@ -99,7 +112,6 @@ public class Main {
 			userChoice= input.next();
 		}
 		if(userChoice.equals("L")) {
-			Views.loginWindow();
 			login();
 		}
 		if(userChoice.equals("Q")) {
@@ -107,11 +119,19 @@ public class Main {
 		}		
 	}
 	
+    // Function to remove non-alphabetic characters
+    static String removeNonAlphabetic(String str) {
+ 
+        // Use regular expression to match all non-alphabetic characters and replace with empty string
+        String result = str.replaceAll("[^a-zA-Z]", "");
+ 
+        return result; // Return the resulting string
+    }
 
 	public static boolean checkAccount (String userName, String userPassword){
 		String dataUserName = null;
 		String dataPassword = null;
-		
+		String newUserName =removeNonAlphabetic(userName);
 		
 		// 1. create a database connection
 	    Connection conn = null;
@@ -123,7 +143,7 @@ public class Main {
 		}
 	    
 	    // 2. prepare and execute statement
-	    String s = "select userName, password from UserDetails where userName = '"+ userName + "';";
+	    String s = "select userName, password from UserDetails where userName = '"+ newUserName + "';";
 	    PreparedStatement prep = null;
 	    ResultSet rs = null;
 	    try {
@@ -161,11 +181,13 @@ public class Main {
 		   return true;
 	   } else {
 		  return false;
+		  
 	   }
 		
 	}
 	
 	public static void login() {
+		boolean check = false;
 		Views.loginWindow();
 		//do loop till matches or user quits
 		System.out.print("Please enter your username: ");
@@ -174,11 +196,13 @@ public class Main {
 		System.out.print("Please enter your password: ");
 		String userPassword = input.next();
 		
-		boolean check = checkAccount(userName, userPassword);
+		check = checkAccount(userName, userPassword);
 			if(check == true) {
 				CurrentUser = userName;	
 				getUserID();
-				System.out.println("U MADE IT!!!");
+				//Viz.generateVizSee();
+				//Viz.generateVizSee();
+				//System.out.println("U MADE IT!!!");
 				homeInterface();
 				
 			} else {
@@ -264,6 +288,8 @@ public class Main {
 	public static void logout() {
 		CurrentUser = null;
 		userID = null;
+		Viz.userViz.clear();
+		Viz.userNoViz.clear();
 		mainInterface();
 	}
 }
