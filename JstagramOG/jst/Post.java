@@ -89,6 +89,7 @@ public class Post {
 		}
 	
 	}
+	
 	public static void deletePost(){
 		
 		// Create a database connection

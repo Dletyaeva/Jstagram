@@ -10,6 +10,7 @@ public class Viz {
 	public static ArrayList<String> userViz = new ArrayList<String>();
 	public static ArrayList<String> userNoViz = new ArrayList<String>();
 	public static void generateVizNoSee() {
+		userNoViz.clear();
 		// 1. create a database connection
 		Connection conn = null;
 		try {
@@ -52,6 +53,7 @@ public class Viz {
 	}
 	
 	public static void generateVizSee() {
+		userViz.clear();
 		// 1. create a database connection
 		Connection conn = null;
 		try {
@@ -62,12 +64,11 @@ public class Viz {
 		}
 	    // 2. prepare and execute statement
 	    String s = "select userName from VIZ natural inner join UserDetails \r\n"
-	    		+ "	where ("+ Main.CurrentUser +"= 'Y') and userName in (select userName from UserDetails);";
+	    		+ "	where (" + Main.CurrentUser + "= 'Y') and userName in (select userName from UserDetails);";
 	    PreparedStatement prep = null;
 	    ResultSet rs = null;
 	    try {
 			prep = conn.prepareStatement(s);
-			
 			rs = prep.executeQuery();
 			while(rs.next()) {
 				String userName = rs.getString("userName");
@@ -94,8 +95,6 @@ public class Viz {
 	
 
 	public static void addToViz() {
-		userViz.clear();
-		userNoViz.clear();
 		// Create a database connection
 	    Connection conn = null;
 	    try {
@@ -108,14 +107,16 @@ public class Viz {
 		// Get user input
 		System.out.print("Enter username to add: ");
 		String addUser = Main.input.next();
+		PreparedStatement prep = null;
 
 	    // Prepare statement
-	    String s = "update VIZ set " + Main.CurrentUser + "= 'Y' where userID = (select userID from UserDetails where userName = "+ addUser + ");";
+	    String s = "UPDATE VIZ set "+ Main.CurrentUser + " = 'Y' where userID = (select userID from UserDetails where userName = ?);";
+
 	    
-	    PreparedStatement prep = null;
 	    
 	    try {
 			prep = conn.prepareStatement(s);
+	    	prep.setString(1, addUser);
 			prep.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -132,8 +133,6 @@ public class Viz {
 	
 	// deletes a user from current user's visibility list
 	public static void deleteFromViz() {
-		userViz.clear();
-		userNoViz.clear();
 		// Create a database connection
 	    Connection conn = null;
 	    try {
@@ -145,15 +144,16 @@ public class Viz {
 	    
 		// Get user input
 		System.out.print("Enter Database username to remove: ");
-		String addUser = Main.input.next();
+		String removeUser = Main.input.next();
 
 	    // Prepare statement
-	    String s = "update VIZ set " + Main.CurrentUser + "= 'N' where userID =(select userID from UserDetails where userName = "+ addUser + ");";
+	    String s = "UPDATE VIZ set "+ Main.CurrentUser +" = 'N' where userID = (select userID from UserDetails where userName = ?);";
 	    
 	    PreparedStatement prep = null;
 	    
 	    try {
 			prep = conn.prepareStatement(s);
+			prep.setString(1, removeUser);
 			prep.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

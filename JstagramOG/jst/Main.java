@@ -4,21 +4,14 @@ import java.util.*;
 
 
 public class Main {
-	public static String CurrentUser = "Alice";
-	public static Integer userID = 1;
+	public static String CurrentUser = null;
+	public static Integer userID = null;
 	public static Integer usersOn= null;
 	public static Integer postId = 5;
 	public final static Scanner input = new Scanner(System.in);
 	
 	public static void main (String[] args) {
-		//mainInterface();	
-		Viz.generateVizNoSee();
-		Viz.generateVizSee();
-		Views.vizWindow();
-		Viz.addToViz();
-		Viz.generateVizNoSee();
-		Viz.generateVizSee();
-		Views.vizWindow();
+		mainInterface();	
 	}
 	
 	/*interface at account window page displays options:
