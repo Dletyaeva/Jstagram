@@ -2,6 +2,10 @@ package jst;
 import java.sql.*;
 import java.util.*;
 
+/*
+ * Created by Daleela Letyaeva and Maya Wilson
+ * Jstagram
+ */
 
 public class Main {
 	public static String CurrentUser = null;
