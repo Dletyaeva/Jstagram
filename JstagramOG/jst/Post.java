@@ -13,14 +13,14 @@ public class Post {
 	public static List<String> Input40 = new ArrayList<>();
 	
 	public static void setTextInput(String input) {
-	/*really long string over 40 characters 
+	/*really long string over 30 characters 
 	 * split it into an array, each string at some index to be exactly 40 characters
 	 */	
-		Integer mult = input.length() / 40;
-		Integer length = 40 * mult;
+		Integer mult = input.length() / 37;
+		Integer length = 37 * mult;
 		
 		for(int i=0; i < mult; i++) {
-			String newString = input.substring(i*40, length-((mult-(i+1))*40));
+			String newString = input.substring(i*37, length-((mult-(i+1))*37));
 			Input40.add(newString);
 		}
 		
@@ -31,7 +31,9 @@ public class Post {
 	public static void printSetTextInput() {
 		for(int i=0; i < Input40.size(); i++) {
 			String string = Input40.get(i).toString();
-			System.out.printf("|%-40s|\n", string);
+			System.out.printf(Views.ANSI_Cyan + "|");				
+			System.out.printf(Views.ANSI_Red + "   %-37s",string);
+			System.out.printf(Views.ANSI_Cyan +"|\n");
 		}
 	}
 

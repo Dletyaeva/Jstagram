@@ -6,12 +6,13 @@ import java.util.*;
 public class Main {
 	public static String CurrentUser = null;
 	public static Integer userID = null;
-	public static Integer usersOn= null;
+	public static Integer usersOn= 4;
 	public static Integer postId = 5;
 	public final static Scanner input = new Scanner(System.in);
 	
 	public static void main (String[] args) {
 		mainInterface();	
+		
 	}
 	
 	/*interface at account window page displays options:
@@ -113,18 +114,21 @@ public class Main {
 	}
 	
     // Function to remove non-alphabetic characters
-    static String removeNonAlphabetic(String str) {
+    /*static String removeNonAlphabetic(String str) {
  
         // Use regular expression to match all non-alphabetic characters and replace with empty string
         String result = str.replaceAll("[^a-zA-Z]", "");
  
         return result; // Return the resulting string
     }
+    */
 
 	public static boolean checkAccount (String userName, String userPassword){
-		String dataUserName = null;
+		//ArrayList<String> dataUserNames = new ArrayList<>();
+		//String dataUser = null;
 		String dataPassword = null;
-		String newUserName =removeNonAlphabetic(userName);
+		//boolean checkUser = false;
+		boolean checkPass = false;
 		
 		// 1. create a database connection
 	    Connection conn = null;
@@ -136,7 +140,7 @@ public class Main {
 		}
 	    
 	    // 2. prepare and execute statement
-	    String s = "select userName, password from UserDetails where userName = '"+ newUserName + "';";
+	    String s = "select userName,password from UserDetails;";
 	    PreparedStatement prep = null;
 	    ResultSet rs = null;
 	    try {
@@ -144,17 +148,30 @@ public class Main {
 			rs = prep.executeQuery();
 			
 			while(rs.next()) {
-				dataUserName = rs.getString("userName");
-				dataPassword = rs.getString("password");
-				/*
-				System.out.println("Database.username User input:" + userName);
-				System.out.println("Password user input:" + userPassword);
-				System.out.println("User in Database:" + dataUserName);
-				System.out.println("Password in Database:" + dataPassword);
-				*/
+				String usna = rs.getString("userName");	
+				if(usna.equals(userName) == true) {
+					//checkUser = true;
+					//dataUser = usna;
+					//System.out.println("Checking Password");
+					dataPassword = rs.getString("password");
+					
+					if(dataPassword.equals(userPassword) == true) {
+						checkPass = true;
+						//System.out.println("Password correct");
+					} else {
+						checkPass = false;
+						//System.out.println("Password incorrect");
+					}
+				}
 			}
-	
-		
+			
+			/*for(int i = 0; i<=dataUserNames.size(); i++) {
+				String getUser = dataUserNames.get(i);
+
+				}*/
+				
+
+				
 	    } catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -170,13 +187,19 @@ public class Main {
 			e.printStackTrace();
 		}
 	    
-	   if(dataUserName.equals(userName) && dataPassword.equals(userPassword)) {
-		   return true;
-	   } else {
-		  return false;
-		  
-	   }
-		
+	    conn = null;
+	    try {
+			conn = DriverManager.getConnection(Database.url, Database.username, Database.password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	    
+	    if(checkPass == true) {
+	    	return true;
+	    } else {
+	    	return false;
+	    }	
 	}
 	
 	public static void login() {
@@ -193,9 +216,6 @@ public class Main {
 			if(check == true) {
 				CurrentUser = userName;	
 				getUserID();
-				//Viz.generateVizSee();
-				//Viz.generateVizSee();
-				//System.out.println("U MADE IT!!!");
 				homeInterface();
 				
 			} else {
@@ -227,6 +247,8 @@ public class Main {
 					}
 				}//end of while loop
 			 System.out.println("U MAdE IT TO SETTINGS!!");
+			 CurrentUser = userName;	
+			 getUserID();
 			 homeInterface();
 			} // end of else
 	}

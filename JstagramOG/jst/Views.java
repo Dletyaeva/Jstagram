@@ -35,6 +35,7 @@ public class Views {
         System.out.println("|                                        |");
         System.out.printf("|%30s %11s", "Login[L] or Quit[Q]","|\n");
         System.out.println("|                                        |");
+        System.out.printf("|%-6s| %-20s |%-6s|\n","","Users in the Database: "+Main.usersOn,"");
         System.out.println("|                                        |");
         System.out.println("+========================================+" + ANSI_RESET);
     }
@@ -76,6 +77,7 @@ public class Views {
  		System.out.printf("|%10s %-15s %-10s %4s","|","  Logout[L]","|","|\n");
  		System.out.printf("|%10s %-15s %-10s %4s","|","  Quit[Q]","|","|\n");		
  		System.out.println("|                                        |");
+ 		System.out.printf("|%-8s| %-20s |%-8s|\n","","Current User: "+Main.CurrentUser,"");
  		System.out.println("|                                        |");
         System.out.println("+========================================+" + ANSI_RESET);
       
@@ -111,6 +113,10 @@ public class Views {
         System.out.printf("|%5s %10s %20s","|", "Remove User[-] ","|\n");
         System.out.printf("|%5s %-10s %25s","|", "Back[B] ","|\n");
         System.out.println("|                                        |");
+        System.out.print("|");
+        System.out.printf(ANSI_Purple + "%-8s| %-20s |%-8s","","Current User: "+ Main.CurrentUser,"");
+        System.out.print(ANSI_Cyan + "|\n");
+        System.out.println(ANSI_Cyan + "|                                        |");
         System.out.println("+========================================+" + ANSI_RESET);
     }
     public static void postWindow() {
@@ -123,6 +129,10 @@ public class Views {
         System.out.println(ANSI_Cyan + "|                                        |");
         System.out.printf("|%5s %-10s %23s","|", "New Post [+]","|\n");
         System.out.printf("|%5s %-10s %25s","|", "Back[B] ","|\n");
+        System.out.println("|                                        |");
+        System.out.print("|");
+        System.out.printf(ANSI_Purple + "%-8s| %-20s |%-8s","","Current User: "+ Main.CurrentUser,"");
+        System.out.print(ANSI_Cyan + "|\n");
         System.out.println("|                                        |");
         System.out.println("+========================================+" + ANSI_RESET);
     }

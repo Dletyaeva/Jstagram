@@ -111,6 +111,7 @@ public class Viz {
 
 	    // Prepare statement
 	    String s = "UPDATE VIZ set "+ Main.CurrentUser + " = 'Y' where userID = (select userID from UserDetails where userName = ?);";
+	    String s1 = "UPDATE VIZ set " + addUser + "= 'Y' where userID = (select userID from UserDetails where userName = ?);";
 
 	    
 	    
@@ -118,6 +119,12 @@ public class Viz {
 			prep = conn.prepareStatement(s);
 	    	prep.setString(1, addUser);
 			prep.executeUpdate();
+			
+			prep = conn.prepareStatement(s1);
+			prep.setString(1, Main.CurrentUser);
+			prep.executeUpdate();
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -148,13 +155,19 @@ public class Viz {
 
 	    // Prepare statement
 	    String s = "UPDATE VIZ set "+ Main.CurrentUser +" = 'N' where userID = (select userID from UserDetails where userName = ?);";
-	    
+	    String s1 = "UPDATE VIZ set " + removeUser + "= 'N' where userID = (select userID from UserDetails where userName = ?);";
 	    PreparedStatement prep = null;
 	    
 	    try {
 			prep = conn.prepareStatement(s);
 			prep.setString(1, removeUser);
 			prep.executeUpdate();
+			
+			prep = conn.prepareStatement(s1);
+			prep.setString(1, Main.CurrentUser);
+			prep.executeUpdate();
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
